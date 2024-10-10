@@ -1,5 +1,45 @@
 
 // Enter your code below.
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.querySelector("#new-order-form");
+
+  form.addEventListener("submit", function(event) {
+      event.preventDefault(); 
+
+      let itemName = event.target.elements["order-item-name"].value;
+      let itemPrice = event.target.elements["order-item-price"].value;
+      let itemSize = event.target.elements["order-size"].value;
+
+      let isFormValid = true;
+      
+      if (!isValueNotEmpty(itemName)) {
+          document.querySelector("[name='order-item-name']").classList.add("is-invalid");
+          isFormValid = false;
+      } else {
+          document.querySelector("[name='order-item-name']").classList.remove("is-invalid");
+      }
+
+      if (!isValueNotEmpty(itemPrice) || !isGreaterThanFive(Number(itemPrice))) {
+          document.querySelector("[name='order-item-price']").classList.add("is-invalid");
+          isFormValid = false;
+      } else {
+          document.querySelector("[name='order-item-price']").classList.remove("is-invalid");
+      }
+
+      
+      if (!isValueNotEmpty(itemSize)) {
+          document.querySelector("[name='order-size']").classList.add("is-invalid");
+          isFormValid = false;
+      } else {
+          document.querySelector("[name='order-size']").classList.remove("is-invalid");
+      }
+        
+      if (isFormValid) {
+          addOrderItem(itemName, itemPrice, itemSize); 
+          form.reset(); 
+      }
+  });
+});
 
 
 // functions needed for assessment (do not change.)
@@ -12,7 +52,7 @@
  */
 const isValueNotEmpty = (value) => {
   if (value !== "") {
-      return true
+    return true
   }
   return false
 }
@@ -25,7 +65,7 @@ const isValueNotEmpty = (value) => {
  */
 const isGreaterThanFive = (value) => {
   if (value > 5) {
-      return true
+    return true
   }
   return false
 }
@@ -45,7 +85,7 @@ const addOrderItem = (orderItemName, orderItemPrice, orderSize) => {
       <h5 class="mb-1">${orderItemName}</h5>
       <small>${orderSize}</small>
     </div>
-    <p class="mb-1">${'$'+orderItemPrice}</p>
+    <p class="mb-1">${'$' + orderItemPrice}</p>
   </li>`
   orderItemList.innerHTML += newOrderItem
 }
